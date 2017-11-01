@@ -1,6 +1,6 @@
 # ckan-embed
 
-This module supports embedding information dynamically from CKAN data portals into other websites. Currently only dataset (package) search results are supported. For background on this project visit the [Swiss OGD Handbook](http://handbook.opendata.swiss/en/library/embed.html).
+This module supports embedding information dynamically from CKAN data portals into other websites. Currently only datasets (package) search results are supported. 
 
 ## Usage notes
 
@@ -26,11 +26,13 @@ Place the container somewhere on the page, and add the init code:
 
 ```html
 <div id="example-1">
-	Loading '<a href="https://opendata.swiss">statistik</a>' datasets ...
+	Loading '<a href="https://africaopendata.org">Agri Info</a>' datasets ...
 </div>
 ...
 <script>
-ck.datasets('#example-1', 'https://opendata.swiss/', 'statistik');
+ck.datasets('#example-1', 'https://africaopendata.org/', { 
+                    fq: 'organization:agri-info'
+                });
 </script>
 ```
 
@@ -41,10 +43,9 @@ The widget will then render in the `#example-1` container. Some styling possibil
 The script may also be initialized with a configuration object, for example in this case to show three datasets tagged 'hospitals', without using JSONP* and instead proxying the requests through to the API at the `/ckanproxy/` path:
 
 ```js
-ck.datasets('#example-2', 'https://opendata.swiss/', {
+ck.datasets('#example-2', 'https://africaopendata.org/', {
 	fq:       'tags:hospitals',
 	rows:     3,
-	lang:     'de',
 	jsonp:    false,
 	proxy:    '/ckanproxy/'
 }
@@ -83,6 +84,4 @@ To build `ckan-embed.js` and view the test examples, you must have [npm](https:/
 
 ## Acknowledgments
 
-Developed with support from the [Swiss Federal Archives](https://www.bar.admin.ch).
-
-This project was initially based on [vega-embed](https://github.com/vega/vega-embed).
+This project was initially based on [ckan-embed](http://github.com/opendata-swiss/ckan-embed.git).
