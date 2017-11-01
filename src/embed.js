@@ -37,10 +37,7 @@ function generateView(url, packages, options) {
   // Helper functions to massage the results
   var lang = options.lang;
   var fragments = [];
-  var getLangDefault = function(n) {
-    if (lang !== null && n[lang]) return n[lang];
-    return n.fr || n.de || n.it || n.en;
-  };
+
   var getDatasetFormats = function(res) {
     return _.uniq(_.map(res,
       function(r) { return r.format; }))
@@ -53,13 +50,12 @@ function generateView(url, packages, options) {
   // Pass the dataset results to the template
   for (var i in packages) {
     var dso = packages[i];
-    var dsogroupname = (dso.groups.length === 0) ? '' :
-          getLangDefault(dso.groups[0].display_name);
+    var dsogroupname = (dso.groups.length === 0) ? '' : dso.groups[0].display_name;
     var ds = {
       url:           url + 'dataset/' + dso.name,
-      title:         getLangDefault(dso.display_name),
+      title:         dso.title,
       groupname:     dsogroupname,
-      description:   getLangDefault(dso.description),
+      description:   dso.notes,
       formats:       getDatasetFormats(dso.resources),
       modified:      dso.metadata_modified
     };
@@ -89,6 +85,7 @@ function parametrize(options) {
   }
   request.sort = _.isUndefined(options.sort) ?
     'metadata_modified desc' : options.sort;
+  // Fetches 5 rows by default
   request.rows = _.isUndefined(options.rows) ?
     5 : options.rows;
 
